@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "bento/centos-7.2"
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 80, host: 4567 
   
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = "./cookbooks/lamp/Berksfile"
@@ -22,11 +22,31 @@ Vagrant.configure("2") do |config|
 	chef.run_list = [
 		'recipe[php]',
 		'recipe[apache2]',
+		'recipe[apache2::mod_rewrite]',
+		'recipe[apache2::mod_alias]',
+		'recipe[apache2::mod_php5]',
 		'recipe[selinux::disabled]',
 		'recipe[yum-mysql-community::mysql55]',
-		'recipe[lamp::mysql]'
+		'recipe[lamp::mysql]',
+		'recipe[vim]'
 	]
+
+	chef.json = {
+		"apache" => {
+			"listen_address" => "0.0.0.0",
+			"default_site_enabled" => true,
+			"docroot_dir" => "/vagrant/public"
+		}
+    }
   end
+  
+  # Setup the default DocumentRoot of Apache to point to our /public directory
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   if ! [ -L /var/www ]; then
+  #     rm -rf /var/www
+  #     ln -fs /vagrant/public /var/www
+  #   fi
+  # SHELL
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -70,11 +90,4 @@ Vagrant.configure("2") do |config|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end
