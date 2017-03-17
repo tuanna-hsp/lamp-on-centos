@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "bento/centos-7.2"
   config.vm.network "forwarded_port", guest: 80, host: 4567 
+  config.vm.network "forwarded_port", guest: 3306, host: 3306
   
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = "./cookbooks/lamp/Berksfile"
@@ -28,7 +29,8 @@ Vagrant.configure("2") do |config|
 		'recipe[selinux::disabled]',
 		'recipe[yum-mysql-community::mysql55]',
 		'recipe[lamp::mysql]',
-		'recipe[vim]'
+		'recipe[vim]',
+		'recipe[composer]'
 	]
 
 	chef.json = {

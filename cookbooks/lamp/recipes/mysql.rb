@@ -8,4 +8,5 @@ mysql_service 'foo' do
   version '5.5'
   initial_root_password '12345678'
   action [:create, :start]
+  bind_address '0.0.0.0'
 end
