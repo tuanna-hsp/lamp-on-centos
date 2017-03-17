@@ -1,4 +1,5 @@
-###Simple Vagrant setup for a CentOS 7.2 LAMP stack using Chef Solo.
+### Simple Vagrant setup for a CentOS 7.2 LAMP stack using Chef Solo.
+
 Run the following to get the VM up and running
 ```shell
 vagrant plugin install vagrant-berkshelf
