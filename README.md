@@ -1,13 +1,13 @@
-### Simple Vagrant setup for a CentOS 7.2 LAMP stack using Chef Solo.
+### Vagrant setup for a CentOS 7.2 LAMP stack using Chef Solo.
 
-Run the following to get the VM up and running
+To get the VM up and running
 ```shell
 vagrant plugin install vagrant-berkshelf
 vagrant up
 ```
-Then visit `localhost:4567` to see the test site.
+Visit `localhost:4567` to see the test site.
 
-**Connect to MySQL from MySQL Workbench/Sequel Pro** 
+### Connect to MySQL from MySQL Workbench/Sequel Pro 
 
 Login to the guess machine using `vagrant ssh` and run the following to grant access to MySQL service, replace *12345678* with your root password.
 
